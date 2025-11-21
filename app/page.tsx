@@ -1,9 +1,10 @@
 import { IProduct } from './models/product.model'
 import { getData } from './actions'
 import { IQuery } from './models/query.model'
+import AddToCartButton from './ui/AddToCartButton'
 
-export default async function Home({searchParams}: {searchParams: IQuery}) {
-	const query = await searchParams
+export default async function Home({ searchParams }: { searchParams: IQuery }) {
+  const query = await searchParams
   const products = await getData(query)
   return (
     <>
@@ -56,7 +57,7 @@ export default async function Home({searchParams}: {searchParams: IQuery}) {
                         <div className="card-body justify-content-between">
                           <div className="card-price">{product.price} ₽</div>
                           <h5 className="card-title">{product.title}</h5>
-                          <button className="btn btn-primary">В корзину</button>
+                          <AddToCartButton product={product} />
                         </div>
                       </div>
                     </div>
