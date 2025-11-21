@@ -1,4 +1,10 @@
-export default function Home() {
+import { IProduct } from './models/product.model'
+import { getData } from './actions'
+import { IQuery } from './models/query.model'
+
+export default async function Home({searchParams}: {searchParams: IQuery}) {
+	const query = await searchParams
+  const products = await getData(query)
   return (
     <>
       <div className="container">
@@ -39,116 +45,23 @@ export default function Home() {
           <div className="col-12 col-lg-9 col-xl-10">
             <div className="container">
               <div className="row no-gutters goods">
-                {/* <!-- КАРТОЧКИ ТОВАРОВ -->
-							<!-- <div className="col-12 col-md-6 col-lg-4 col-xl-3">
-								<div className="card">
-									<div className="card-img-wrapper">
-										<span className="card-img-top"
-											style="background-image: url('https://cdn1.ozone.ru/multimedia/c400/1033180284.jpg')"></span>
-									</div>
-									<div className="card-body justify-content-between">
-										<div className="card-price">33990 ₽</div>
-										<h5 className="card-title">Игровая приставка Sony PlayStation 4 Pro</h5>
-										<button className="btn btn-primary">В корзину</button>
-									</div>
-								</div>
-							</div>
-							<div className="col-12 col-md-6 col-lg-4 col-xl-3">
-								<div className="card">
-									<div className="card-sale">🔥Hot Sale🔥</div>
-									<div className="card-img-wrapper">
-										<span className="card-img-top"
-											style="background-image: url('https://cdn1.ozone.ru/multimedia/c400/1027495663.jpg')"></span>
-									</div>
-									<div className="card-body justify-content-between">
-										<div className="card-price">16499 ₽</div>
-										<h5 className="card-title">Игровая приставка Sony PlayStation 3 Super Slim</h5>
-										<button className="btn btn-primary">В корзину</button>
-									</div>
-								</div>
-							</div>
-							<div className="col-12 col-md-6 col-lg-4 col-xl-3">
-								<div className="card">
-									<div className="card-img-wrapper">
-										<span className="card-img-top"
-											style="background-image: url('https://cdn1.ozone.ru/multimedia/c400/1024358491.jpg')"></span>
-									</div>
-									<div className="card-body justify-content-between">
-										<div className="card-price">39990 ₽</div>
-										<h5 className="card-title">Игровая приставка Xbox One X</h5>
-										<button className="btn btn-primary">В корзину</button>
-									</div>
-								</div>
-							</div>
-							<div className="col-12 col-md-6 col-lg-4 col-xl-3">
-								<div className="card">
-									<div className="card-sale">🔥Hot Sale🔥</div>
-									<div className="card-img-wrapper">
-										<span className="card-img-top"
-											style="background-image: url('https://cdn1.ozone.ru/multimedia/c400/1024822131.jpg')"></span>
-									</div>
-									<div className="card-body justify-content-between">
-										<div className="card-price">23411 ₽</div>
-										<h5 className="card-title">Игровая приставка Xbox One S</h5>
-										<button className="btn btn-primary">В корзину</button>
-									</div>
-								</div>
-							</div>
-							<div className="col-12 col-md-6 col-lg-4 col-xl-3">
-								<div className="card">
-									<div className="card-img-wrapper">
-										<span className="card-img-top"
-											style="background-image: url('https://cdn1.ozone.ru/multimedia/c400/1021386685.jpg')"></span>
-									</div>
-									<div className="card-body justify-content-between">
-										<div className="card-price">24751 ₽</div>
-										<h5 className="card-title">Игровая приставка Nintendo Switch</h5>
-										<button className="btn btn-primary">В корзину</button>
-									</div>
-								</div>
-							</div>
-							<div className="col-12 col-md-6 col-lg-4 col-xl-3">
-								<div className="card">
-									<div className="card-sale">🔥Hot Sale🔥</div>
-									<div className="card-img-wrapper">
-										<span className="card-img-top"
-											style="background-image: url('https://cdn1.ozone.ru/multimedia/c400/1024928305.jpg')"></span>
-									</div>
-									<div className="card-body justify-content-between">
-										<div className="card-price">3624 ₽</div>
-										<h5 className="card-title">Игровая приставка Sega Retro Genesis HD</h5>
-										<button className="btn btn-primary">В корзину</button>
-									</div>
-								</div>
-							</div>
-							<div className="col-12 col-md-6 col-lg-4 col-xl-3">
-								<div className="card">
-									<div className="card-sale">🔥Hot Sale🔥</div>
-									<div className="card-img-wrapper">
-										<span className="card-img-top"
-											style="background-image: url('https://cdn1.ozone.ru/multimedia/c400/1021877092.jpg')"></span>
-									</div>
-									<div className="card-body justify-content-between">
-										<div className="card-price">1551 ₽</div>
-										<h5 className="card-title">Игровая приставка Dendy Junior</h5>
-										<button className="btn btn-primary">В корзину</button>
-									</div>
-								</div>
-							</div>
-							<div className="col-12 col-md-6 col-lg-4 col-xl-3">
-								<div className="card">
-									<div className="card-img-wrapper">
-										<span className="card-img-top"
-											style="background-image: url('https://cdn1.ozone.ru/multimedia/c400/1025222877.jpg')"></span>
-									</div>
-									<div className="card-body justify-content-between">
-										<div className="card-price">10445 ₽</div>
-										<h5 className="card-title">Игровая приставка Sony PlayStation classNameic</h5>
-										<button className="btn btn-primary">В корзину</button>
-									</div>
-								</div>
-							</div> -->
-							<!-- END КАРТОЧКИ ТОВАРОВ --> */}
+                {products.map((product: IProduct) => {
+                  return (
+                    <div className="col-12 col-md-6 col-lg-4 col-xl-3" key={product.id}>
+                      <div className="card" data-key={product.id}>
+                        {product.sale ? <div className="card-sale">🔥Hot Sale🔥</div> : null}
+                        <div className="card-img-wrapper">
+                          <span className="card-img-top" style={{ backgroundImage: `url(${product.img})` }}></span>
+                        </div>
+                        <div className="card-body justify-content-between">
+                          <div className="card-price">{product.price} ₽</div>
+                          <h5 className="card-title">{product.title}</h5>
+                          <button className="btn btn-primary">В корзину</button>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })}
               </div>
             </div>
           </div>
